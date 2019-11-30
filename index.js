@@ -14,6 +14,6 @@ app.options('*', cors());
 dbConnect.on('connected', () => {
   console.log('db connected at: ', config.db_url)
   const server = app.listen(config.port, () => {
-    console.log(`Edgeplayer api listening on port ${config.port}!`);
+    console.log(`my-slate api listening on port ${config.port}!`);
   });
 });
