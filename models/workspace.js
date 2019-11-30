@@ -9,6 +9,6 @@ const workspaceSchema = new Schema({
   created_date: { type: Date, default: Date.now },
 });
 
-schema.set('toJSON', { virtuals: true });
+workspaceSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Workspace', workspaceSchema);
