@@ -1,5 +1,5 @@
-const workspace = require('./workspace');
+const Workspace = require('./workspace');
 
 module.exports = {
-  workspace,
+  Workspace,
 };

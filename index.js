@@ -11,6 +11,10 @@ app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
 
+app.get('/', (req, res) => {
+  return res.json({message: 'Welcome to my slate api'});
+});
+
 workspace(app);
 
 dbConnect.on('connected', () => {

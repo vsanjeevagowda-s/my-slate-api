@@ -1,8 +1,9 @@
 const workspace = require('../src/api/controllers/workspace');
 
 const workspaceRoutes = (app) => {
-  app.post('/api/workspace', workspace.create);
-  app.get('/api/list', workspace.list);
+  app.put('/api/workspace', workspace.upsert);
+  app.get('/api/workspaces', workspace.list);
+  app.get('/api/workspace/:date', workspace.show);
 };
 
 module.exports = workspaceRoutes;
