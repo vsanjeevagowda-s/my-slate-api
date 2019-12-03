@@ -1,5 +1,7 @@
-const workspace = require('./workspace');
+const Workspace = require('./workspace');
+const Todo = require('./todo');
 
 module.exports = {
-  workspace,
+  Workspace,
+  Todo,
 };
