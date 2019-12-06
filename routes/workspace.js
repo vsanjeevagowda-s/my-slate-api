@@ -1,9 +1,10 @@
-const workspace = require('../src/api/controllers/workspace');
+const { upsert, list, show } = require('../src/api/controllers/workspace');
+const { authUser } = require('../lib');
 
 const workspaceRoutes = (app) => {
-  app.put('/api/workspace', workspace.upsert);
-  app.get('/api/workspaces', workspace.list);
-  app.get('/api/workspace/:date', workspace.show);
+  app.put('/api/workspace', authUser, upsert);
+  app.get('/api/workspaces', authUser,  list);
+  app.get('/api/workspace/:date', authUser, show);
 };
 
 module.exports = workspaceRoutes;

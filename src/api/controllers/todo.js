@@ -5,7 +5,6 @@ const hmve = require('hmve');
 const upsert = async (req, res) => {
   try {
     const { date, record } = req.body;
-    console.log({ record })
     const todoResp = await Todo.findOneAndUpdate({ date },{ record }, {upsert: true} );
     return res.status(200).json({ todo: todoResp });
   } catch (error) {
