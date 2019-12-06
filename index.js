@@ -6,7 +6,8 @@ const config = require('./config/environment');
 const dbConnect = require('./models/connect');
 const {
   workspace,
-  todo
+  todo,
+  helper,
 } = require('./routes');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 workspace(app);
 todo(app);
+helper(app);
 
 dbConnect.on('connected', () => {
   console.log('db connected at: ', config.db_url)
