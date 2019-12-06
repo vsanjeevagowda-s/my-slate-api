@@ -8,6 +8,7 @@ const {
   workspace,
   todo,
   helper,
+  session,
 } = require('./routes');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 workspace(app);
 todo(app);
 helper(app);
+session(app);
 
 dbConnect.on('connected', () => {
   console.log('db connected at: ', config.db_url)
