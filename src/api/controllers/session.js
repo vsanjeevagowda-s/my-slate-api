@@ -4,7 +4,7 @@ const hmve = require('hmve');
 const { User } = require('../../../models');
 const config = require('../../../config/environment');
 
-const session = async (req, res) => {
+const create = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!(email && password)) throw new Error('username/password is invalid');
@@ -21,4 +21,4 @@ const session = async (req, res) => {
   }
 };
 
-module.exports = { session };
+module.exports = { create };
