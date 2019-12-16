@@ -24,7 +24,7 @@ const show = async (req, res) => {
     const { date } = req.params;
     const todoResp = await Todo.findOne({ date });
     if (!todoResp) throw new Error('Record not found!!')
-    const [todo, ...items] = todoResp.versions.sort((m1, m2) => ( m1.verison > m2.verison ? -1 : 1 ));
+    const [todo, ...items] = todoResp.versions.sort((m1, m2) => ( m1.version > m2.version ? -1 : 1 ));
     if (!todo) throw new Error('Verison not available!!')
     return res.status(200).json({ todo: { date: moment(todo.date).format('YYYY-MM-DD'), record: todo.record, version: todo.version } });
   } catch (error) {
