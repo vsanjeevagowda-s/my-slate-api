@@ -24,7 +24,7 @@ const show = async (req, res) => {
     const { date } = req.params;
     const workspaceResp = await Workspace.findOne({ date });
     if (!workspaceResp) throw new Error('Record not found!!')
-    const [workspace, ...items] = workspaceResp.versions.sort((m1, m2) => ( m1.verison > m2.verison ? -1 : 1 ));
+    const [workspace, ...items] = workspaceResp.versions.sort((m1, m2) => ( m1.version > m2.version ? -1 : 1 ));
     if (!workspace) throw new Error('Verison not available!!')
     return res.status(200).json({ workspace: { date: moment(workspace.date).format('YYYY-MM-DD'), record: workspace.record, version: workspace.version } });
   } catch (error) {
