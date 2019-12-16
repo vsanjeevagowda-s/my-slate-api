@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const versionSchema = new Schema({
+  version: { type: Number, default: 1 },
   date: { type: Date, default: Date.now },
   record: { type: String }
 })

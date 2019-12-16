@@ -2,10 +2,17 @@ const { Todo } = require('../../../models');
 const moment = require('moment');
 const hmve = require('hmve');
 
-const upsert = async (req, res) => {
+const create = async (req, res) => {
   try {
     const { date, record } = req.body;
-    const todoResp = await Todo.findOneAndUpdate({ date },{ record }, {upsert: true} );
+    let todoResp = '';
+    const wr = await Todo.findOne({ date });
+    if (wr) {
+      wr.versions.push({ version: wr.versions.length + 1, record, date });
+      todoResp = await wr.save();
+    } else {
+      todoResp = await Todo.create({ date, versions: [{ record, date }] });
+    }
     return res.status(200).json({ todo: todoResp });
   } catch (error) {
     return res.status(422).json({ message: hmve(Todo, error).message });
@@ -16,8 +23,10 @@ const show = async (req, res) => {
   try {
     const { date } = req.params;
     const todoResp = await Todo.findOne({ date });
-    if(!todoResp) throw new Error('Record not found!!')
-    return res.status(200).json({ todo :{...todoResp, date:moment(todoResp.date).format('YYYY-MM-DD'), record: todoResp.record}});
+    if (!todoResp) throw new Error('Record not found!!')
+    const [todo, ...items] = todoResp.versions.sort((m1, m2) => ( m1.verison > m2.verison ? -1 : 1 ));
+    if (!todo) throw new Error('Verison not available!!')
+    return res.status(200).json({ todo: { date: moment(todo.date).format('YYYY-MM-DD'), record: todo.record, version: todo.version } });
   } catch (error) {
     return res.status(422).json({ message: hmve(Todo, error).message });
   }
@@ -33,7 +42,7 @@ const list = async (req, res) => {
 }
 
 module.exports = {
-  upsert,
+  create,
   list,
   show
 }
