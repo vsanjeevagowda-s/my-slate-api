@@ -10,4 +10,5 @@ dbConnect.on('connected', async () => {
     password: "<PASSWORD>"
   });
   console.log('userResp =>', userResp);
+  await dbConnect.close();
 })
