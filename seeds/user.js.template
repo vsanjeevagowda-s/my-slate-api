@@ -1,0 +1,13 @@
+const dbConnect = require('../models/connect');
+const config = require('../config/environment');
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
+
+dbConnect.on('connected', async () => {
+  console.log('db connected at: ', config.db_url);
+  const userResp = await User.create({
+    email: "<EMAIL>",
+    password: "<PASSWORD>"
+  });
+  console.log('userResp =>', userResp);
+})
