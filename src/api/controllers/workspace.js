@@ -56,7 +56,7 @@ const versions = async (req, res) => {
       }
     ]);
     if(!workspace.versions.length) throw new Error('No more records available!!');
-    const totalPages = Math.floor(workspace.totalRecords / limit) + 1;
+    const totalPages = Math.ceil(workspace.totalRecords / limit);
     return res.status(200).json({
       ...workspace,
       totalPages,
