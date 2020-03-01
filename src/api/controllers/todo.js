@@ -32,6 +32,47 @@ const show = async (req, res) => {
   }
 }
 
+
+const versions = async (req, res) => {
+  try {
+    const { date } = req.params;
+    let { page = 1, limit=10 } = req.query;
+    page = Number(page);
+    limit = Number(limit);
+    let [todo, ...rest] = await Todo.aggregate([
+      {
+        $match: {
+          date: new Date(date)
+        }
+      },
+      { $unwind: "$versions" },
+      { $sort: { "versions.version": -1 } },
+      { $group: { _id: "$_id", versions: { $push: "$versions" } } },
+      {
+        $project: {
+          versions: {
+            $slice: ["$versions", (page - 1) * limit, limit]
+          },
+          totalRecords: {
+            $size: "$versions"
+          }
+        }
+      }
+    ]);
+    if(!todo.versions.length) throw new Error('No more records available!!');
+    const totalPages = Math.ceil(todo.totalRecords / limit);
+    return res.status(200).json({
+      ...todo,
+      totalPages,
+      limit,
+      page,
+      recordsPerPage: todo.versions.length
+    });
+  } catch (error) {
+    return res.status(422).json({ message: hmve(Todo, error).message });
+  }
+}
+
 const list = async (req, res) => {
   try {
     const todoResp = await Todo.find();
@@ -44,5 +85,6 @@ const list = async (req, res) => {
 module.exports = {
   create,
   list,
-  show
+  show,
+  versions
 }
