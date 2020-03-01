@@ -44,6 +44,9 @@ const versions = async (req, res) => {
           date: new Date(date)
         }
       },
+      { $unwind: "$versions" },
+      { $sort: { "versions.version": -1 } },
+      { $group: { _id: "$_id", versions: { $push: "$versions" } } },
       {
         $project: {
           versions: {
